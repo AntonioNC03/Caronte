@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  servidor:
+    build:
+      context: ${CONTEXTO} # Asegúrate de que la variable CONTEXTO esté definida correctamente en el archivo .env
+      dockerfile: /home/antonio/Caronte/dockerfiles/ubuntu/DockerFile
+      args:
+        CONTEXT: ${CONTEXTO}
+        TZ: ${TZ}
+        PROYECTO: ${PROYECTO}
+    image: ${AUTOR}/ubuntubase # `image` no pertenece a la sección build, sino al servicio
+    container_name: miserver
+    hostname: ${HOSTNAME}
+    env_file:
+      - ./.env
+    environment:
+      USUARIO: ${USUARIO}
+      PASSWORD: ${PASSWD}
+    volumes:
+      - ./logs:/root/logs
+    networks:
+      netcaronte:
+        ipv4_address: 172.120.22.2
+
+networks:
+  netcaronte:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.120.22.0/24

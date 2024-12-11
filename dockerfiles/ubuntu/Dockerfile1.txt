@@ -1,0 +1,22 @@
+# Partimos de una imgagen de ubuntu de la ultima version :version
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -yq --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+     curl \
+     nano \
+     net-tools \
+     iputils-ping
+
+RUN groupadd ADMIN
+RUN useradd antonio1 -g ADMIN -d /home/antonio1 -m -s /bin/bash
+RUN echo "estas como usuario $(whoami)"
+
+USER antonio1 
+RUN echo "estas como el usuario $(whoami)"
+WORKDIR /home/antonio1 
+RUN mkdir admin
+COPY bienvenido.sh ./admin
+RUN chmod u+x bienvenido.sh  
+RUN ./admin/bienvenido.sh 
+# ejecuta un echo
+#CMD ["/bin/echo", "Hola Mundo"]
+CMD ["tail", "-f", "/dev/null &"]

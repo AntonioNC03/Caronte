@@ -1,0 +1,7 @@
+docker build -t anavcol428/miubuntu -f Dockerfile .  
+docker run -v ./datos:/root/datos --name miserver -e USUARIO=pepe -e PASSWORD=1234 anavcol428/ubuntubase 
+
+
+docker compose --env-file .env -f docker-compose.yml up -d --build
+docker compose --env-file .env -f docker-compose.yml config
+docker compose --env-file .env -f docker-compose.yml down
